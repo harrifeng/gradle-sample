@@ -7,20 +7,10 @@
  * user guide available at https://docs.gradle.org/3.0/userguide/tutorial_java_projects.html
  */
 
-// this is `plugin jar`, it has to be added as build script dependency
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.bmuschko:gradle-tomcat-plugin:2.2.5'
-    }
-}
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'com.bmuschko.tomcat'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 version = '1.0'
 war.baseName = 'gradle-sample'
 // In this section you declare where to find the dependencies of your project
@@ -34,18 +24,11 @@ repositories {
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.21'
-    // compile 'javax.servlet:servlet-api:2.5'
-    // compile 'javax.servlet:javax.servlet-api:3.0.1'
-    providedCompile 'javax.servlet:servlet-api:2.5','javax.servlet:jsp-api:2.0'
+    compile 'javax.servlet:servlet-api:2.5'
 
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
-
-    def tomcatVersion = '7.0.59'
-    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-    "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
-    "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 }
